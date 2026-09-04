@@ -1,11 +1,6 @@
----
-name: arxiv-talent-radar
-description: Source and score ML/research candidates from new arXiv papers and maintain a live, editable candidate tracker — the Claude-native replacement for an n8n + Claude + GitHub + Airtable arXiv sourcing workflow. Use when the user wants to source candidates from arXiv, find engineers/researchers from recent papers, refresh an existing role's arXiv tracker, or mentions "arxiv talent radar" or replacing that n8n/Airtable automation.
----
-
 # arXiv Talent Radar
 
-Replaces an n8n + Claude + GitHub + Airtable arXiv sourcing workflow with a Claude-native pipeline: read a category feed, evaluate role fit paper by paper, cross-reference the first author on GitHub as a best-effort lead, score, and keep a live editable tracker.
+Replaces an n8n + Claude + GitHub + Airtable arXiv sourcing workflow with a Claude-native pipeline (https://github.com/catiasousa/Arxiv-Talent-Radar-with-Claude-n8n-Airtable): read a category feed, evaluate role fit paper by paper, cross-reference the first author on GitHub as a best-effort lead, score and keep a live editable tracker.
 
 ## 1. Gather inputs
 
@@ -22,11 +17,11 @@ For each entry, also fetch the abstract page (`https://arxiv.org/abs/<id>`) if t
 
 ## 3. Filter for role relevance
 
-For each paper, read the title, abstract, and author list. Apply strict judgment against the role context — most papers on a feed will not be relevant. Only papers with genuine topical overlap with the role move forward. Discard the rest without further processing; don't enrich or score papers that fail this filter.
+For each paper, read the title, abstract, and author list. Apply strict judgment against the role context as most papers on a feed will not be relevant. Only papers with genuine topical overlap with the role move forward. Discard the rest without further processing; don't enrich or score papers that fail this filter.
 
 ## 4. Cross-reference the first author on GitHub (best-effort)
 
-For each paper that passes the filter, try to find the first author's GitHub profile (search by name, check for a linked GitHub in their institutional page if surfaced, or a matching username pattern). This is a hedge, not a guarantee — arXiv author names don't map cleanly to GitHub logins. Treat anything found here as an inferred signal, not a verified fact, and say so in the tracker.
+For each paper that passes the filter, try to find the first author's GitHub profile (search by name, check for a linked GitHub in their institutional page if surfaced, or a matching username pattern). This is a hedge, not a guarantee as arXiv author names don't map cleanly to GitHub logins. Treat anything found here as an inferred signal, not a verified fact, and say so in the tracker.
 
 GitHub access note: direct calls to `api.github.com` from the cloud sandbox are blocked by a proxy restriction regardless of any token — use WebFetch for all GitHub lookups here, not Bash/curl. WebFetch hits GitHub's API unauthenticated on a shared IP and can 403 under load; retry once or twice before giving up on that lookup. If the user has linked their computer, GitHub calls can be run from there instead for higher, token-backed rate limits.
 
