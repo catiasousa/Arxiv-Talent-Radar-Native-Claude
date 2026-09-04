@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-A Claude-native fork of [Arxiv-Talent-Radar-with-Claude-n8n](../Arxiv-Talent-Radar-with-Claude-n8n), same sourcing pipeline, rebuilt to run entirely inside Claude instead of n8n + Airtable.
+A Claude-native fork of [arxiv-talent-radar-with-claude-n8n](https://github.com/catiasousa/arxiv-talent-radar-with-claude-n8n), same sourcing pipeline, rebuilt to run entirely inside Claude instead of n8n + Airtable.
 
 ## What this project does
 
