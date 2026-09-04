@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-A Claude-native sourcing workflow that finds and scores ML and research candidates from new arXiv papers, then maintains a live editable tracker with outreach-ready context.
+A Claude-natA Claude-native fork of Arxiv-Talent-Radar-with-Claude-n8n , same sourcing pipeline, rebuilt to run entirely inside Claude instead of n8n + Airtable.
 
 ## What this project does
 
