@@ -1,0 +1,4 @@
+title = "gitleaks config — arxiv-talent-radar-claude"
+
+[extend]
+useDefault = true
