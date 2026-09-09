@@ -1,115 +1,95 @@
-# arXiv Talent Radar — Claude Edition
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-
-A Claude-native fork of [Arxiv-Talent-Radar-with-Claude-n8n](https://github.com/search?q=Arxiv-Talent-Radar-with-Claude-n8n+user%3Acatiasousa&type=repositories), same sourcing pipeline, rebuilt to run entirely inside Claude instead of n8n + Airtable.
-
 ## What this project does
 
 This project reads newly posted arXiv papers and turns promising authors into scored, trackable candidates through Claude only, with no n8n and no Airtable required.
 
-It reads a category feed, evaluates paper relevance against your role, cross-references the first author on GitHub as a best-effort lead, and writes qualified candidates to a live tracker with a personalized outreach hook based on real paper content.
+It scans selected arXiv categories, evaluates paper relevance against your role, cross-references authors on GitHub as a best-effort lead, and writes qualified candidates to a live tracker with a practical outreach workflow.
 
 You can run it on demand whenever you need fresh sourcing, or run it on a schedule if you use a linked computer.
 
-## What arXiv is and why it is one of the most underused sourcing tools in AI hiring
+## Why arXiv
 
-arXiv is where AI researchers and engineers publish their newest technical work in real time. It is not a social feed and not a hiring platform. It is the earliest public signal of who is actively pushing the field forward through original research and implementation.
+arXiv is a high-signal source of current technical work across many domains, not just AI/ML. It helps surface people actively publishing and building in fields such as:
 
-Why it is uniquely powerful: arXiv captures current momentum before it appears on resumes, LinkedIn updates, or conference talks. If someone is consistently publishing relevant work in your target area, that is direct evidence of active domain depth, technical focus, and recent execution.
+- **Computer science** (systems, security, HCI, networking, software engineering)
+- **Mathematics and statistics**
+- **Physics and optics/photonics** (including laser-related research)
+- **Quantitative biology**
+- **Electrical engineering and signal processing**
+- **Economics and quantitative social science**
 
-Three types of talent signals you find here: first authors who often drive core execution on a paper, senior or last authors who often indicate research leadership, and repeat contributors who show sustained output in a narrow technical domain over time.
+Because papers appear early, arXiv often reveals active contributors before they become visible through traditional hiring channels.
 
-What this guide builds: a Claude-native sourcing workflow that runs on demand or on schedule, reads new arXiv papers from selected categories, evaluates role fit, cross-references likely GitHub profiles, scores promising candidates, and saves them in a live editable tracker with outreach hooks grounded in actual paper content.
+This workflow turns that signal into a repeatable sourcing process: scan recent papers in selected categories, evaluate relevance to your role, cross-reference authors to GitHub (best-effort), score fit, and track qualified candidates in a live tracker.
 
-## Workflow logic explained
+## Who this is for (and not for)
 
-This workflow reads one arXiv category feed per run, with `cs.LG` as the default.
+**This is for you if**
 
-For each paper, Claude reads the title, abstract, and author list and applies strict role-fit judgment.
+- You hire research, engineering, or research-adjacent talent and want evidence from current technical output.
+- You want earlier sourcing signals from publication activity, not only profiles or resumes.
+- You want an on-demand (or scheduled) workflow that scores candidates and keeps outreach tracking in one place.
 
-Relevant papers move forward to first-author GitHub cross-reference as a best-effort identity lead.
+**This is not for you if**
 
-Qualified candidates are saved to a live tracker that separates verified facts from inferred signals.
+- Your roles have no meaningful overlap with technical publication output.
+- You cannot use external APIs or automated profile analysis due to policy constraints.
 
-## Who this is for
+## The search methods this workflow runs
 
-This project is ideal for teams recruiting ML and AI research or research-adjacent engineering talent who want current publication signals and a repeatable sourcing process.
+This workflow processes one arXiv category feed per run and evaluates the most recent N papers you choose.
 
-This project is not a fit if your role has no meaningful research overlap, or if policy constraints prevent external API use or automated profile analysis.
+**Method 1 — Category feed scan.**  
+What it does: reads `https://arxiv.org/rss/<category>` for recent papers.  
+Why it matters: gives a current stream of domain-specific candidates.
 
-## How discovery works
+**Method 2 — Role relevance filter.**  
+What it does: filters papers by title/abstract overlap with your hiring criteria.  
+Why it matters: removes off-topic research before enrichment/scoring.
 
-You choose one arXiv category per run, for example `cs.LG`, `cs.CL`, `cs.CV`, or `stat.ML`.
+**Method 3 — Author cross-reference (best-effort).**  
+What it does: tries to map authors to GitHub profiles where possible.  
+Why it matters: adds practical engineering/build signal to publication output.
 
-The feed endpoint is:
+## Accounts you need to create
 
-`https://arxiv.org/rss/<category>`
+- **arXiv**: no account required for public RSS/content access.
+- **Claude** (claude.ai), with Cowork/Artifacts enabled.
+- **GitHub** (optional), for best-effort author cross-referencing and additional public activity context.
 
-Each run processes the most recent N papers you specify, with 20 as a practical default if you do not set one.
+## Setup details
 
-## Accounts and access
+**1) Install the skill**  
+Give Claude `skill/SKILL.md` and ask it to save the skill (see Quickstart, Install mode).
 
-You need a GitHub account and a Claude account with Cowork or Artifacts enabled. arXiv itself does not require an account.
+**2) Connect access**  
+No credentials are required for arXiv RSS. Optionally provide a GitHub token in chat when prompted for better GitHub cross-reference reliability. Never store tokens in files.
 
-An optional GitHub personal access token can improve API reliability and rate limits when cross-referencing authors.
+**3) Tell Claude the role you're hiring for**  
+Provide role context (title, must-haves, seniority, domain constraints).
 
-Never store tokens in repo files or committed content.
+**4) Choose your search criteria**  
+Provide one or more arXiv categories and a recent paper count.
 
-## Quickstart
+Examples by domain:
+- AI/ML: `cs.LG`, `cs.CL`, `cs.CV`, `stat.ML`
+- Systems/software: `cs.SE`, `cs.DC`, `cs.OS`, `cs.NI`
+- Security/crypto: `cs.CR`
+- Signal processing: `eess.SP`
+- Optics/lasers/photonics-related: `physics.optics`
+- Quant biology: `q-bio.*` (choose a specific subcategory)
+- Math/stats: `math.*`, `stat.*` (choose specific subcategories)
 
-### Install mode
-Open Claude, attach or paste `skill/SKILL.md`, and ask Claude to save it as a skill.
+**5) Run a test**  
+Ask Claude to run a small batch first and review tracker output quality.
 
-After saving, provide role context, arXiv category, and paper count whenever you want a sourcing run.
+**6) Automate it (optional)**  
+Ask Claude to set up a scheduled recurring run if you want continuous sourcing.
 
-### One-off mode
-Paste `skill/SKILL.md` into Claude and ask it to run once for your role without saving as a reusable skill.
+**7) Schedule**  
+Pick the cadence explicitly (for example weekly for research-heavy hiring).
 
-## How the workflow operates
+## Customizing
 
-1. You provide role context, category, and number of recent papers.
-2. Claude fetches and parses the arXiv feed.
-3. Claude evaluates relevance and filters strictly.
-4. Claude cross-references first authors on GitHub.
-5. Claude scores candidates and updates a live tracker.
-6. You review, contact, and track outreach in one place.
-
-## Tracker fields
-
-### Workflow-populated fields
-
-`full_name`, `github_url`, `source`, `source_role`, `date_sourced`, `fit_score`, `priority_action`, `key_strengths`, `key_gaps`, `outreach_hook`, `profile_summary`, `paper_title`, `paper_url`, `arxiv_category`, `institution`, `author_position`, `career_stage`, `co_authors`
-
-### Manual outreach fields
-
-`contacted`, `contact_date`, `replied`, `reply_sentiment`, `do_not_contact`, `notes`
-
-## Security notes
-
-## Security notes
-
-This repo is a public skill template. It should contain logic only, never live secrets or personal data.
-
-**What is safe to publish:** the skill's instructions, API endpoint patterns, field mappings, and example queries.
-
-**What must not be committed:** GitHub tokens, Claude API keys, `.env` files, private keys, or real candidate data from any run.
-
-Gitleaks runs via `.github/workflows/gitleaks.yml`. Run locally before pushing:
-
-```bash
-gitleaks detect --source . --verbose
-```
-
-## Repository structure
-.
-├── .github/workflows/gitleaks.yml
-├── .gitleaks.toml
-├── .gitignore
-├── LICENSE
-├── README.md
-└── skill/SKILL.md
-
-## License
-
-MIT License. See [LICENSE](LICENSE).
+- Change categories and paper count each run to match hiring priorities.
+- Ask Claude to tune scoring strictness by role seniority and domain.
+- Add tracker fields for domain-specific signals (e.g., methods, tooling, citation/context notes).
