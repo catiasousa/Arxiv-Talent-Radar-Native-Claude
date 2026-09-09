@@ -1,30 +1,30 @@
 ## What this project does
 
-This project builds an arXiv sourcing system you run through Claude. It reads recent papers from selected categories, evaluates relevance to your role, cross-references authors to GitHub (best-effort), and writes qualified candidates to a live tracker.
+This project creates an arXiv-based sourcing workflow you run directly in Claude. It scans recent papers in a chosen category, evaluates role relevance, enriches authors with public profile context (best-effort), scores fit, and writes qualified candidates to a live tracker.
 
-Ask Claude any time you want a fresh batch for a role. With a linked computer and a scheduled task, it can also run unattended on a cadence you choose.
+You can run it on demand for active roles or on a recurring schedule with a linked computer.
 
 ## Why arXiv
 
-Manual research sourcing is slow and hard to scale consistently. arXiv gives early, high-signal evidence of current technical work across multiple domains, not only AI/ML.
+arXiv provides early signal on people doing current technical work. It is useful across AI/ML and many other technical fields, and it surfaces activity before many traditional sourcing channels update.
 
-This workflow turns that into a repeatable process with structured filtering, scoring, and outreach tracking.
+This workflow converts that signal into a repeatable sourcing process with structured scoring and tracking.
 
 ## The search methods this workflow runs
 
-This workflow reads one arXiv category feed per run and processes the most recent N papers you choose.
+This workflow processes one arXiv category feed per run and evaluates the most recent N papers you choose.
 
-**Method 1 — Category feed.**  
-What it does: reads `https://arxiv.org/rss/<category>`.  
+**Method 1 — Category feed scan.**  
+What it does: reads `https://arxiv.org/rss/<category>` for recent papers.  
 Why it matters: gives a current stream of domain-specific candidates.
 
-**Method 2 — Role relevance filtering.**  
+**Method 2 — Role relevance filter.**  
 What it does: filters papers by title/abstract overlap with your hiring criteria.  
-Why it matters: removes off-target papers before enrichment/scoring.
+Why it matters: removes off-topic research before enrichment and scoring.
 
 **Method 3 — Author cross-reference (best-effort).**  
-What it does: attempts to map authors to GitHub profiles.  
-Why it matters: adds practical build/activity context to publication output.
+What it does: attempts to map authors to GitHub profiles when possible.  
+Why it matters: adds practical engineering/build signal to publication output.
 
 ## Setup details
 
@@ -32,25 +32,25 @@ Why it matters: adds practical build/activity context to publication output.
 Give Claude `skill/SKILL.md` and ask it to save the skill.
 
 **2) Connect access**  
-No credentials are required for arXiv RSS. Optionally provide a GitHub token in chat when prompted for better GitHub cross-reference reliability (never store tokens in files).
+No credentials are required for arXiv RSS. Optionally provide a GitHub token in chat for better cross-reference reliability. Never store tokens in files.
 
-**3) Tell Claude the role you're hiring for**  
-Provide role title, requirements, and domain context.
+**3) Provide role context**  
+Share title, must-haves, seniority, and domain focus.
 
-**4) Choose your search criteria**  
-Provide arXiv category and recent paper count (for example: `cs.LG`, `cs.CL`, `cs.CV`, `cs.SE`, `cs.CR`, `eess.SP`, `physics.optics`, `math.*`, `stat.*`).
+**4) Choose search inputs**  
+Set one arXiv category and recent paper count (for example: `cs.SE`, `cs.CR`, `eess.SP`, `physics.optics`, `math.*`, `stat.*`, `cs.LG`).
 
-**5) Run a test**  
-Run a small batch first and review output quality.
+**5) Run a small test batch**  
+Review tracker output quality and adjust criteria.
 
-**6) Automate it (optional)**  
-Set up a recurring schedule if you want continuous sourcing.
+**6) Automate if needed**  
+Set a recurring schedule for continuous sourcing.
 
-**7) Schedule**  
-Pick your cadence explicitly (weekly is a practical default for many research roles).
+**7) Set cadence**  
+Choose a fixed rhythm (for example weekly).
 
 ## Customizing
 
-- Change categories and paper count on each run to match hiring priorities.
-- Ask Claude to tighten or relax scoring strictness by role/seniority.
-- Add tracker fields for domain-specific signals if needed.
+- Change category and paper count by role priority.
+- Tune scoring strictness by seniority and role type.
+- Add tracker fields for domain-specific signals.
