@@ -111,4 +111,4 @@ Run local checks before pushing.
 
 ## License
 
-MIT License, Copyright (c) 2026 Catia Sousa.
+MIT License. See [LICENSE](LICENSE).
