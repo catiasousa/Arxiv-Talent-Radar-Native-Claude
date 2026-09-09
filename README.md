@@ -102,8 +102,6 @@ gitleaks detect --source . --verbose
 ```
 
 ## Repository structure
-
-```text
 .
 ├── .github/workflows/gitleaks.yml
 ├── .gitleaks.toml
@@ -111,7 +109,6 @@ gitleaks detect --source . --verbose
 ├── LICENSE
 ├── README.md
 └── skill/SKILL.md
-```
 
 ## License
 
