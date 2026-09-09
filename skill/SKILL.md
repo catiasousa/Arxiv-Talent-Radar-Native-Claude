@@ -14,11 +14,13 @@ Ask for (or infer from context already given):
 - arXiv category (default `cs.LG` if not specified — other common ones: `cs.CL`, `cs.CV`, `stat.ML`)
 - Number of recent papers to process (default 20)
 
-## 2. Fetch the arXiv feed
+## 2. Fetch recent papers
 
-Fetch `https://arxiv.org/rss/<category>` with WebFetch. This works reliably from the cloud sandbox (unlike GitHub's API — see step 4). Take the most recent N entries requested.
+Fetch `https://arxiv.org/list/<category>/recent` with WebFetch — this is the reliable path. (The RSS feed at `https://arxiv.org/rss/<category>` looks like the obvious choice but is heavily rate-limited at the proxy level in the cloud sandbox and frequently fails outright; don't use it.) Take the most recent N entries requested — the listing page gives title, author list, and arXiv id for each.
 
-For each entry, also fetch the abstract page (`https://arxiv.org/abs/<id>`) if the RSS summary doesn't give you enough to judge relevance — author list and full abstract usually live there.
+For each candidate paper, fetch the abstract page (`https://arxiv.org/abs/<id>`) to get the full abstract and confirm the author list — the listing page alone is enough to screen for relevance, but not enough to score against.
+
+GitHub cross-referencing note (see step 4): GitHub's own user/repo *search* pages (`github.com/search?...`) are blocked by robots.txt for WebFetch, on top of the existing `api.github.com` proxy restriction. In practice this means author-name GitHub cross-referencing from the cloud sandbox usually can't be confirmed at all — treat it as frequently unavailable, not just occasionally uncertain, and say so plainly in the tracker rather than guessing a profile.
 
 ## 3. Filter for role relevance
 
