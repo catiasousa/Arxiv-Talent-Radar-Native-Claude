@@ -87,15 +87,19 @@ Paste `skill/SKILL.md` into Claude and ask it to run once for your role without 
 
 ## Security notes
 
-This repository is a public template and should include logic only, never live secrets or personal data.
+## Security notes
 
-Safe to publish includes workflow instructions, endpoint patterns, field mappings, and example queries.
+This repo is a public skill template. It should contain logic only, never live secrets or personal data.
 
-Never commit tokens, API keys, `.env` files, private keys, or real candidate data.
+**What is safe to publish:** the skill's instructions, API endpoint patterns, field mappings, and example queries.
 
-Gitleaks is configured in `.github/workflows/gitleaks.yml`.
+**What must not be committed:** GitHub tokens, Claude API keys, `.env` files, private keys, or real candidate data from any run.
 
-Run local checks before pushing.
+Gitleaks runs via `.github/workflows/gitleaks.yml`. Run locally before pushing:
+
+```bash
+gitleaks detect --source . --verbose
+```
 
 ## Repository structure
 
