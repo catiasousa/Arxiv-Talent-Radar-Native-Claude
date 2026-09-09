@@ -2,3 +2,7 @@ title = "gitleaks config — arxiv-talent-radar-claude"
 
 [extend]
 useDefault = true
+
+# This repo is documentation + a Claude skill file only — no code that
+# should ever legitimately contain a real key. The default gitleaks
+# ruleset is sufficient; nothing is relaxed here.
